@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello World!</title>
+    <style>
+        body{
+  padding: 25px;
+}
+.title {
+	color: #5C6AC4;
+}
+    </style>
+    <script src="https://www.google.com/recaptcha/api.js?trustedtypes=true"></script>
+  </head>
+  <body>
+      <h1 class="title">Hello World! </h1>
+      <p id="currentTime"></p>
+      <p id="demo-form">You bot</p>
+      <button class="g-recaptcha" id="demo-form" 
+        data-sitekey='6LfEqqcfAAAAAETCJFNFkXOotuXhuRi-9cGYdOnE'           
+        data-callback='onSubmit' 
+        data-action='submit'>Submit</button>
+       <!-- <script src="https://www.google.com/recaptcha/api.js"></script> -->
+       <script>
+         let usertoken = "";
+         var formdata = new FormData();
+     formdata.append("secret", "6LfEqqcfAAAAAJURxGssziZcpMSYKUNTlWWqQAQh");
+    async function onSubmit(token) {
+     formdata.append("response", token);
+      usertoken = token;
+      console.log(token);
+    
+if(usertoken != ""){
+  console.log("token is not empty");
+  fetch("https://www.google.com/recaptcha/api/siteverify", {
+    method: "POST",
+    body: formdata,
+    mode: "cors",
+    credentials: "omit",
+    headers: {
+      "Access-Control-Allow-Origin":"*",
+      "content-length": 145349,
+      "Content-Type": "application/x-www-form-urlencoded",
+      crossorigin: "anonymous",
+      "cross-origin-policy": "anonymous"
+    }
+  })
+  .then(response => 
+    response.json())
+  .then(data => {
+    console.log(data);
+    if(data.success == true){
+      console.log("success");
+      document.getElementById("demo-form").innerHTML = "You are human";
+    }
+    else{
+      console.log("failure");
+      document.getElementById("demo-form").innerHTML = "You are a bot";
+    }
+  });
+}}
+
+//"6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" client side
+// "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe" server side
+
+
+// let a = parseInt((Math.random(0,10))*10);
+// let b = parseInt((Math.random(0,10))*10);
+// let c = parseInt((Math.random(0,10))*10);
+// let f = parseInt((Math.random(0,10))*10);
+// let d = parseInt((Math.random(0,10))*10);
+// let e = parseInt((Math.random(0,10))*10);
+// let text = "";
+// text=text+a+b+c+f+d+e;
+// document.getElementById("demo-form").innerHTML = text;
+ </script>
+       
+  </body>
+</html>
